@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
+    // Control Properties
+    [Header("Controls")]
+    public Joystick leftStick;
+
     // Movement Properties
     [Header("Movement")] 
     public float maxSpeed = 10.0f;
@@ -58,8 +62,11 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
         // movement
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        //float x = Input.GetAxis("Horizontal");
+        //float z = Input.GetAxis("Vertical");
+
+        float x = leftStick.Horizontal;
+        float z = leftStick.Vertical;
 
         Vector3 move = transform.right * x + transform.forward * z;
 
@@ -87,5 +94,15 @@ public class PlayerBehaviour : MonoBehaviour
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(groundCheck.position, groundRadius);
         Gizmos.DrawLine(playerCamera.position, playerCamera.forward * 100.0f);
+    }
+
+    public void onYButtonPressed()
+    {
+        velocity.y = Mathf.Sqrt(jumpHeight * -2.0f * gravity);
+    }
+
+    public void onBButtonPressed()
+    {
+        miniMapBorder.SetActive(!miniMapBorder.activeInHierarchy);
     }
 }
